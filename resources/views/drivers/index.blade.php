@@ -35,7 +35,7 @@
             <th>Price</th>
             <th width="280px">Action</th>
         </tr>
-	    @foreach ($drivers as $index =>$driver)
+	    @foreach ($drivers as $index => $driver)
 	    <tr>
 	        <td>{{ ++$i }}</td>
 	        <td>{{ $user[$index]->name }}</td>

@@ -6,7 +6,7 @@
     --body: #000000;
     --border: rgba(0,0,0,0.08);
     --shadow: 0px 6px 30px rgba(0, 0, 0, 0.08);
-    
+
 }
 
 body {
@@ -39,7 +39,7 @@ a {
 
 a:hover {
     color: var(--brand);
-} 
+}
 
 section {
     padding-top: 80px;
@@ -81,7 +81,7 @@ section {
 
 .hero-slider .owl-prev:hover,
 .hero-slider .owl-next:hover {
-    background-color: var(--brand) !important; 
+    background-color: var(--brand) !important;
 }
 
 .owl-dot.active span{
@@ -129,6 +129,7 @@ section {
     color: #fff;
     padding-top: 5px;
     padding-bottom: 5px;
+
 }
 
 .top-nav p {

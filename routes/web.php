@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 
@@ -30,6 +31,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/driver', [App\Http\Controllers\HomeController::class, 'Driverindex']);
 
 
 Route::group(['middleware' => ['auth']], function() {
@@ -42,6 +44,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('categorys', CategoryController::class , ['names' => ['index' => 'categorys','create' => 'categorys.create']]);
     Route::resource('types', TypeController::class , ['names' => ['index' => 'types']]);
     Route::resource('offers', OfferController::class , ['names' => ['index' => 'offers']]);
+    Route::resource('vehicles', VehicleController::class , ['names' => ['index' => 'vehicles']]);
 });
 
 // Route::post('/drivers/store', [App\Http\Controllers\DriverController::class, 'store'])->name('driver.store');

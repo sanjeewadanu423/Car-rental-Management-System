@@ -23,7 +23,7 @@ class DriverController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $drivers = Driver::latest()->paginate(5);
         foreach($drivers as $driver){

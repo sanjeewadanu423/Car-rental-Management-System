@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
-use App\Models\Offer;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
-class OfferController extends Controller
+class VehicleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class OfferController extends Controller
      */
     public function index()
     {
-        $offers = Offer::latest()->paginate(5);
-        return view('offers.index',compact('offers'))
+        $vehicles = Vehicle::latest()->paginate(5);
+        return view('vehicles.index',compact('vehicles'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -27,7 +26,7 @@ class OfferController extends Controller
      */
     public function create()
     {
-        return view('offers.create');
+        return view('vehicles.create');
     }
 
     /**
@@ -39,17 +38,14 @@ class OfferController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'title' => 'required',
-            'offer_descrip' => 'required',
-            'coupon' => 'required',
-            'offer_price' => 'required',
-            'admin_id' => 'required',
+            'name' => 'required',
+            'detail' => 'required',
         ]);
 
-        Offer::create($request->all());
+        Vehicle::create($request->all());
 
-        return redirect()->route('offers')
-                        ->with('success','offer created successfully.');
+        return redirect()->route('vehicles.index')
+                        ->with('success','Vehicle created successfully.');
     }
 
     /**
@@ -58,10 +54,9 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Offer $offer)
+    public function show(Vehicle $vehicle)
     {
-        $admin = Admin::get();
-        return view('offers.show',compact('offer'));
+        return view('vehicles.show',compact('vehicle'));
     }
 
     /**
@@ -70,9 +65,9 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Offer $offer)
+    public function edit(Vehicle $vehicle)
     {
-        return view('offers.edit',compact('offer'));
+        return view('vehicles.edit',compact('vehicle'));
     }
 
     /**
@@ -82,20 +77,17 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Offer $offer)
+    public function update(Request $request, Vehicle $vehicle)
     {
         request()->validate([
-            'title' => 'required',
-            'offer_descrip' => 'required',
-            'coupon' => 'required',
-            'offer_price' => 'required',
-
+            'name' => 'required',
+            'detail' => 'required',
         ]);
 
-        $offer->update($request->all());
+        $vehicle->update($request->all());
 
-        return redirect()->route('offers')
-                        ->with('success','offer updated successfully');
+        return redirect()->route('vehicles.index')
+                        ->with('success','Vehicle updated successfully');
     }
 
     /**
@@ -104,11 +96,11 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Offer $offer)
+    public function destroy($id)
     {
-        $offer->delete();
+        $vehicle->delete();
 
-        return redirect()->route('offers')
-                        ->with('success','offer deleted successfully');
+        return redirect()->route('vehicles.index')
+                        ->with('success','Vehicle deleted successfully');
     }
 }

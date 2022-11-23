@@ -56,10 +56,11 @@ class TypeController extends Controller
         request()->validate([
             'vehicle_type_name' => 'required',
             'vehicle_cat_id' => 'required',
-            'vehicle_cat_name' => 'required'
+
 
         ]);
 
+        Cat::create($request->all());
         Type::create($request->all());
 
         return redirect()->route('types')
@@ -87,7 +88,7 @@ class TypeController extends Controller
     public function edit(Type $type)
     {
         $categorys = Cat::get();
-        // dd($type);
+        dd($type);
         return view('types.edit',compact('categorys','type'));
     }
 
@@ -100,9 +101,11 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
+
         request()->validate([
             'vehicle_type_name' => 'required',
-            'vehicle_cat_id' => 'required'
+            'vehicle_cat_id' => 'required',
+
         ]);
 
         $type->update($request->all());

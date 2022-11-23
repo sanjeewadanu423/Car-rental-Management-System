@@ -24,7 +24,7 @@
 
                         <li class="nav-item"><a class="nav-link" href="booking.html"><span>Booking</span></a>
                                             <a class="nav-link" href="{{ route('drivers') }}"><span>Driver</span></a>
-                                            <a class="nav-link" href="vehicle.html"><span>Vehicle</span></a>
+                                            <a class="nav-link" href="{{ route('vehicles') }}"><span>Vehicle</span></a>
                                             <a class="nav-link" href="{{ route('customers') }}"><span>Customer</span></a>
                                             <a class="nav-link" href="{{ route('offers') }}"><span>Offer</span></a>
                                             <a class="nav-link" href="{{ route('reviews') }}"><span>Review</span></a>
