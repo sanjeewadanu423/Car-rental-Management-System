@@ -28,4 +28,10 @@ class Booking extends Model
     {
         return $this->belongsTo(offer::class);
     }
+
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
+
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Type;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VehicleController extends Controller
 {
@@ -14,7 +16,22 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $vehicles = Vehicle::latest()->paginate(5);
+
+        // $data=DB::table('vehicles')
+        //     ->join('vehicle_types', 'vehicle_types.vehicle_type_id' , '=' , 'vehicle.id')
+
+        //  $vehicles = Vehicle::latest()->paginate(5);
+
+         $vehicles = DB::table('vehicle_types')
+         ->join('vehicles', 'vehicle_types.id', '=', 'vehicles.vehicle_type_id')
+        //  ->join('drivers', 'users.id', '=', 'drivers.user_id')
+        //  ->join('vehicles', 'users.id', '=', 'vehicles.user_id')
+         ->select('vehicle_types.*', 'vehicles.*')
+         ->paginate(5);
+
+
+
+
         return view('vehicles.index',compact('vehicles'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -26,7 +43,8 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        return view('vehicles.create');
+        $types = Type::get();
+        return view('vehicles.create' , compact('types'));
     }
 
     /**
@@ -38,13 +56,37 @@ class VehicleController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
+            'vehicle_name' => 'required',
+            // 'vehicle_type_name' => 'required',
+            'vehicle_reg_no' => 'required',
+            'vehicle_l_h' => 'required',
+            'price_per_date' => 'required',
+            'passengers' => 'required',
+            'transmission' => 'required',
+            'luggage' => 'required',
+            'air_condition' => 'required',
+            'fuel' => 'required',
+            'vehicle_states' => 'required',
+            'price_for_extra_km' => 'required',
+            'engine_capacity' => 'required',
         ]);
 
-        Vehicle::create($request->all());
+        $vehicle = new Vehicle;
 
-        return redirect()->route('vehicles.index')
+        $vehicle->vehicle_photo = $request->vehicle_photo;
+
+        if($request->hasFile('file')) {
+            $imageName = time().'.'.$request->file->extension();
+
+            $request->file->move(public_path('img'), $imageName);
+
+            $vehicle->vehicle_photo = $imageName;
+
+            }
+
+            Vehicle::create($request->all());
+
+        return redirect()->route('vehicles')
                         ->with('success','Vehicle created successfully.');
     }
 
@@ -66,8 +108,10 @@ class VehicleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Vehicle $vehicle)
+
     {
-        return view('vehicles.edit',compact('vehicle'));
+        $types = Type::get();
+        return view('vehicles.edit',compact('vehicle', 'types'));
     }
 
     /**
@@ -80,8 +124,19 @@ class VehicleController extends Controller
     public function update(Request $request, Vehicle $vehicle)
     {
         request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
+            'vehicle_name' => 'required',
+            // 'vehicle_type_name' => 'required',
+            'vehicle_reg_no' => 'required',
+            'vehicle_l_h' => 'required',
+            'price_per_date' => 'required',
+            'passengers' => 'required',
+            'transmission' => 'required',
+            'luggage' => 'required',
+            'air_condition' => 'required',
+            'fuel' => 'required',
+            'vehicle_states' => 'required',
+            'price_for_extra_km' => 'required',
+            'engine_capacity' => 'required',
         ]);
 
         $vehicle->update($request->all());
@@ -96,11 +151,21 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Vehicle $vehicle)
     {
         $vehicle->delete();
 
-        return redirect()->route('vehicles.index')
+        return redirect()->route('vehicles')
                         ->with('success','Vehicle deleted successfully');
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $vehicle = Vehicle::find($request->vehicle_id);
+
+        $vehicle->vehicle_states = $request->vehicle_states;
+        $vehicle->save();
+
+        return response()->json(['success'=>'Status change successfully.']);
     }
 }

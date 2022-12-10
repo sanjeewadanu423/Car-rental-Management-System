@@ -26,7 +26,7 @@
     @endif
 
 
-    <form action="{{ route('drivers.store') }}" method="POST">
+    <form action="{{ route('drivers.store') }}" method="POST" enctype="multipart/form-data">
     	@csrf
 
 
@@ -34,13 +34,13 @@
 		    <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
 		            <strong>User Name:</strong>
-		            <select class="form-control" name="user_id">
-                        @foreach ($user as $value)
-
-                        <option value="{{ $value->id }}">{{ $value->name}}</option>
-                        @endforeach
-
-                    </select>
+		            <input type="text" class="form-control" name="name" placeholder="">
+		        </div>
+		    </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
+		            <strong>Email:</strong>
+		            <input type="text" class="form-control" name="email" placeholder="">
 		        </div>
 		    </div>
 
@@ -72,7 +72,7 @@
 		        <div class="form-group">
 		            <strong>Driver Photo:</strong>
 		            <form action="/action_page.php">
-                        <input class="form-control" type="file" id="myFile" name="driver_photo">
+                        <input class="form-control" id="myFile" type="file" name="file">
                       </form>
 		        </div>
 		    </div>
@@ -91,9 +91,30 @@
 		            <input type="text" class="form-control" name="price_per_date" placeholder="2500">
 		        </div>
 		    </div>
+
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    <label class="form-label" for="service_client_start_date"><strong>Set Password:</strong><br></label>
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    <label class="form-label" for="service_client_start_date"><strong>Confirm Password:</strong><br></label>
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                </div>
+            </div>
+
 		    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
 		            <button type="submit" class="btn btn-primary">Submit</button>
 		    </div>
+
+
 		</div>
 
 

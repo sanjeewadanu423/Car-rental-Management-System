@@ -35,16 +35,16 @@
             <th>Price</th>
             <th width="280px">Action</th>
         </tr>
-	    @foreach ($drivers as $index => $driver)
+	    @foreach ($drivers as $driver)
 	    <tr>
 	        <td>{{ ++$i }}</td>
-	        <td>{{ $user[$index]->name }}</td>
-	        <td>{{ $user[$index]->email }}</td>
+	        <td>{{ $driver->name }}</td>
+	        <td>{{ $driver->email }}</td>
             <td>{{ $driver->driver_address }}</td>
             <td>{{ $driver->driver_phone }}</td>
             <td>{{ $driver->driver_age }}</td>
             <td>{{ $driver->driber_nic }}</td>
-            <td>{{ $driver->driver_photo }}</td>
+            <td><img class="rounded-circle me-2" width="30" height="30" src="{{asset('img/'.$driver->driver_photo)}}"></td>
             <td>{{ $driver->driver_type }}</td>
             <td>{{ $driver->price_per_date }}</td>
 	        <td>

@@ -16,7 +16,7 @@
         <!-- Scripts -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('css/admin.css') }}"></script>
+    {{-- <script src="{{ asset('css/admin.css') }}"></script> --}}
 
 
 </head>

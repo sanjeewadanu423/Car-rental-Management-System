@@ -29,11 +29,15 @@ class LoginController extends Controller
      * @var string
      */
     public function redirectTo(){
-        $id = Auth::user()->id;
+        $user = Auth::user();
+        //dd($id);
         // User role
-        $role = Role::findOrFail($id);
+        $role = $user->getRoleNames();
+        //dd($role);
+        //$role = Role::findOrFail($id);
+// dd( $role);
         // Check user role
-        switch ($role->name) {
+        switch ($role[0]) {
             case 'Admin':
                     return '/home';
                 break;

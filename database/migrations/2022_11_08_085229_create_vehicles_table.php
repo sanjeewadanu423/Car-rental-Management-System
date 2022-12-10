@@ -29,9 +29,17 @@ return new class extends Migration
             $table->enum('fuel', ['petrol', 'diesel']);
             $table->enum('vehicle_states',['yes', 'no']);
             $table->enum('air_condition', ['yes', 'no']);
-            $table->foreignId('driver_id')->constrained()->nullable();
             $table->timestamps();
         });
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $vehicle = Vehicle::find($request->vehicle_id);
+        $vehicle->vehicle_statess = $request->vehicle_statess;
+        $vehicle->save();
+
+        return response()->json(['success'=>'Status change successfully.']);
     }
 
     /**

@@ -7,6 +7,8 @@
         <title>Admin Dashboard </title>
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('fonts/fontawesome-all.min.css') }}">
+
+        @yield('style')
     </head>
 
     <body id="page-top">
@@ -14,7 +16,7 @@
 
             <!-- side navigation bar -->
             <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
-                <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.html">
+                <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="{{ route('home') }}">
                         <div class="sidebar-brand-icon rotate-n-15"></div>
                         <div class="sidebar-brand-text mx-3"><span>Rent a car</span></div>
                     </a>
@@ -22,7 +24,7 @@
                     <ul class="navbar-nav text-light" id="accordionSidebar">
                         <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}"><span>Dashboard</span></a></li>
 
-                        <li class="nav-item"><a class="nav-link" href="booking.html"><span>Booking</span></a>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('bookings') }}"><span>Booking</span></a>
                                             <a class="nav-link" href="{{ route('drivers') }}"><span>Driver</span></a>
                                             <a class="nav-link" href="{{ route('vehicles') }}"><span>Vehicle</span></a>
                                             <a class="nav-link" href="{{ route('customers') }}"><span>Customer</span></a>

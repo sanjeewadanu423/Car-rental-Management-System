@@ -26,7 +26,7 @@ class TypeController extends Controller
         }
 
 
-        return view('types.index',compact('types','category'))
+        return view('types.index',compact('types', 'category'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -55,12 +55,13 @@ class TypeController extends Controller
         //dd($request);
         request()->validate([
             'vehicle_type_name' => 'required',
-            'vehicle_cat_id' => 'required',
+            'vehicle_cat_id' => 'required'
 
 
         ]);
 
-        Cat::create($request->all());
+
+       // Cat::create($request->all());
         Type::create($request->all());
 
         return redirect()->route('types')
@@ -88,7 +89,7 @@ class TypeController extends Controller
     public function edit(Type $type)
     {
         $categorys = Cat::get();
-        dd($type);
+        // dd($type);
         return view('types.edit',compact('categorys','type'));
     }
 

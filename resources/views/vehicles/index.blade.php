@@ -1,5 +1,13 @@
 @extends('layouts.master')
 
+@section('style')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.4/css/bootstrap.min.css"  />
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+@endsection
 
 @section('content')
     <div class="row">
@@ -8,9 +16,9 @@
                 <h2>Vehicles</h2>
             </div>
             <div class="pull-right">
-                @can('vehicle-create')
+
                 <a class="btn btn-success" href="{{ route('vehicles.create') }}"> Add Vehicle</a>
-                @endcan
+
             </div>
         </div>
     </div>
@@ -27,61 +35,72 @@
         <tr>
             <th>No</th>
             <th>Name</th>
-            <th>Type Name</th>
             <th>Reg Number</th>
-            <th>Driver Type</th>
             <th>Price Per Date</th>
             <th>Photo</th>
             <th>Passenger</th>
-            <th>Transmision</th>
             <th>Luggage</th>
-            <th>Air Condition</th>
-            <th>Fuel</th>
             <th>Status</th>
-            <th>Price Extra km</th>
             <th>Engine Capacity</th>
-            <th>Driver Name</th>
-            <th width="280px">Action</th>
+            <th width="260px">Action</th>
         </tr>
-	    @foreach ($vehicles as $index => $vehicle)
+	    @foreach ($vehicles as  $vehicle)
 	    <tr>
 	        <td>{{ ++$i }}</td>
 	        <td>{{ $vehicle->vehicle_name }}</td>
-	        <td>{{ $cat[$index]->vehicle_type_name }}</td>
             <td>{{ $vehicle->vehicle_reg_no }}</td>
-            <td>{{ $vehicle->vehicle_l_h }}</td>
             <td>{{ $vehicle->price_per_date }}</td>
-            <td>{{ $vehicle->vehicle_photo }}</td>
+            <td><img class="rounded-circle me-2" width="30" height="30" src="{{asset('img/'.$vehicle->vehicle_photo)}}"></td>
             <td>{{ $vehicle->passengers }}</td>
-            <td>{{ $vehicle->transmission }}</td>
             <td>{{ $vehicle->luggage }}</td>
-            <td>{{ $vehicle->air_condition }}</td>
-            <td>{{ $vehicle->fuel }}</td>
-            <td>{{ $vehicle->vehicle_states }}</td>
-            <td>{{ $vehicle->price_for_extra_km }}</td>
+            <td>
+                <input data-id="{{$vehicle->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="NotActive" {{ $vehicle->vehicle_states ? 'checked' : '' }}>
+            </td>
             <td>{{ $vehicle->engine_capacity }}</td>
-            <td>{{ $vehicle->price_for_extra_km }}</td>
 	        <td>
                 <form action="{{ route('vehicles.destroy',$vehicle->id) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('vehicles.show',$vehicle->id) }}">Show</a>
-                    @can('vehicle-edit')
+
                     <a class="btn btn-primary" href="{{ route('vehicles.edit',$vehicle->id) }}">Edit</a>
-                    @endcan
+
 
 
                     @csrf
                     @method('DELETE')
-                    @can('vehicle-delete')
+
                     <button type="submit" class="btn btn-danger">Delete</button>
-                    @endcan
+
                 </form>
 	        </td>
 	    </tr>
+
+
+
 	    @endforeach
     </table>
+    <script>
+        $(function() {
+          $('.toggle-class').change(function() {
+              var vehicle_states = $(this).prop('checked') == true ? 1 : 0;
+              var vehicle_id = $(this).data('id');
+
+              $.ajax({
+                  type: "GET",
+                  dataType: "json",
+                  url: '/changeStatus',
+                  data: {'vehicle_states': vehicle_states, 'vehicle_id': vehicle_id},
+                  success: function(data){
+                    console.log(data.success)
+                  }
+              });
+          })
+        })
+      </script>
 
 
     {!! $vehicles->links() !!}
 
 
 @endsection
+
+

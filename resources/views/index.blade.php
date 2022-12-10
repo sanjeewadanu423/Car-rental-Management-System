@@ -124,9 +124,9 @@
                         <div class="image">
                             <img src="img/gtr.jfif" alt="">
                             <div class="social-icons">
-                                <a href="master-car.html"><i></i></a>
+                                <a  href="{{ route('cars') }}"><i></i></a>
                             </div>
-                            <div class="overlay"></div>
+                            <div class="overlay" href=""></div>
                         </div>
                         <p>Car</p>
                     </div>
@@ -137,7 +137,7 @@
                         <div class="image">
                             <img src="img/gtr.jfif" alt="">
                             <div class="social-icons">
-                                <a href="master-suv.html"><i></i></a>
+                                <a href="{{ route('cabs') }}"><i></i></a>
                             </div>
                             <div class="overlay"></div>
                         </div>
@@ -150,7 +150,7 @@
                         <div class="image">
                             <img src="img/gtr.jfif" alt="">
                             <div class="social-icons">
-                                <a href="#"><i></i></a>
+                                <a href="{{ route('vans') }}"><i></i></a>
                             </div>
                             <div class="overlay"></div>
                         </div>

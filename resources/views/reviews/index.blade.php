@@ -23,7 +23,8 @@
             <th>No</th>
             <th>Review</th>
             <th>Email id</th>
-            <th width="280px">Review Status</th>
+            <th>Review Status</th>
+            <th width="280px">Action</th>
         </tr>
 	    @foreach ($reviews as $review)
 	    <tr>
@@ -34,9 +35,9 @@
 	        <td>
                 <form action="{{ route('reviews.destroy',$review->id) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('reviews.show',$review->id) }}">Show</a>
-                    @can('review-edit')
+
                     <a class="btn btn-primary" href="{{ route('reviews.edit',$review->id) }}">Edit</a>
-                    @endcan
+
 
 
                     @csrf

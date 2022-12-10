@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -24,13 +25,18 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::latest()->paginate(5);
+        // $customers = Customer::latest()->paginate(5);
 
-        foreach($customers as $customer){
-            $user[]=Customer::find($customer->id)->user;
-         }
+        // foreach($customers as $customer){
+        //     $user[]=Customer::find($customer->id)->user;
+        //  }
 
-        return view('customers.index',compact('customers','user'))
+        $customers = DB::table('users')
+            ->join('customers', 'users.id', '=', 'customers.user_id')
+            ->select('users.*', 'customers.*')
+            ->paginate(5);
+
+        return view('customers.index',compact('customers'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

@@ -150,7 +150,7 @@
                                 <form class="p-lg-5 col-12 row g-3"  method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <div>
-                                        <h1>Please Log</h1>
+                                        <h3>Please Log</h3>
                                     </div>
                                     <div class="col-lg-12">
                                         <label for="email" class="form-label">Email Address</label>
@@ -223,22 +223,35 @@
                                 </div>
                             </div>
                             <div class="col-lg-8">
-                                <form class="p-lg-5 col-12 row g-3">
+                            <form class="p-lg-5 col-12 row g-3"  method="POST" action="{{ route('register') }}">
+                                @csrf
                                     <div>
-                                        <h1>Please Log</h1>
+                                        <h3>Please Register</h3>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <label for="fullname" class="form-label">Full Name</label>
-                                        <input type="text" class="form-control" placeholder="Jon" id="fullname"
-                                            aria-describedby="emailHelp">
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                     </div>
 
                                     <div class="col-lg-12">
                                         <label for="email" class="form-label">Email Address</label>
-                                        <input type="text" class="form-control" placeholder="sanjeewadanu423@gmail.com" id="email"
-                                            aria-describedby="emailHelp">
+                                        <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="sanjeewadanu423@gmail.com" aria-describedby="emailHelp">
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+
                                     </div>
+
                                     <div class="col-lg-6">
                                         <label for="idNo" class="form-label">Enter ID Number</label>
                                         <input type="text" class="form-control" placeholder="981351363v" id="idNo"
@@ -258,8 +271,31 @@
                                         </textarea>
                                     </div>
 
+                                    <div class="col-lg-6">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" aria-describedby="emailHelp">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label for="password-confirm" class="form-label">Confirm Password</label>
+                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" aria-describedby="emailHelp">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                    </div>
+
+
                                     <div class="col-6">
-                                        <button type="register" class="btn btn-brand">Register</button>
+                                        <button type="register" class="btn btn-brand" name="submit">Register</button>
                                     </div>
 
                                 </form>
@@ -283,7 +319,7 @@
                             <div class="col-lg-8">
                                 <form class="p-lg-5 col-12 row g-3">
                                     <div>
-                                        <h1>Availability Checking</h1>
+                                        <h3>Availability Checking</h3>
                                     </div>
 
                                     <div>

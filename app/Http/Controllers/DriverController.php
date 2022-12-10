@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Driver;
 use App\Models\User;
+use App\Models\Driver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 
 class DriverController extends Controller
@@ -25,15 +27,24 @@ class DriverController extends Controller
      */
     public function index()
     {
-        $drivers = Driver::latest()->paginate(5);
-        foreach($drivers as $driver){
+        $drivers = DB::table('users')
+            ->join('drivers', 'users.id', '=', 'drivers.user_id')
+            ->select('users.*', 'drivers.*')
+            ->paginate(5);
 
-        $user[]=Driver::find($driver->id)->user;
-
-        }
+            // dd($drivers);
 
 
-        return view('drivers.index',compact('drivers','user'))
+        // $drivers = Driver::latest()->paginate(5);
+        // foreach($drivers as $driver){
+
+
+        // $user[]=Driver::find($driver->id)->user;
+
+        // }
+
+
+        return view('drivers.index',compact('drivers'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -58,22 +69,62 @@ class DriverController extends Controller
     public function store(Request $request)
     {
 
+        // request()->validate([
+        //     'user_id' => 'required',
+        //     // 'email' => 'required|email',
+        //     'driver_address' => 'required',
+        //     'driver_phone' => 'required',
+        //     'driber_nic' => 'required',
+        //     'driver_age' => 'required',
+        //     // 'driver_photo' => 'required',
+        //     'driver_type' => 'required',
+        //     'price_per_date' => 'required',
+        // ]);
+
+        // Driver::create($request->all());
+        // User::create($request->all());
+
         request()->validate([
-            'user_id' => 'required',
-            // 'email' => 'required|email',
-            'driver_address' => 'required',
-            'driver_phone' => 'required',
-            'driber_nic' => 'required',
-            'driver_age' => 'required',
-            // 'driver_photo' => 'required',
-            'driver_type' => 'required',
-            'price_per_date' => 'required',
+            'name'=> 'required',
+            'email'=> 'required',
+            'driver_phone'=> 'required',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        Driver::create($request->all());
-        User::create($request->all());
+        $user = new User;
 
-        return redirect()->route('drivers.index')
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        $driver = new Driver;
+        $driver->driver_address = $request->driver_address;
+        $driver->driver_phone = $request->driver_phone;
+        $driver->driver_age = $request->driver_age;
+        $driver->driber_nic = $request->driber_nic;
+        $driver->driver_photo = $request->driver_photo;
+        $driver->driver_type = $request->driver_type;
+        $driver->price_per_date = $request->price_per_date;
+
+        if($request->hasFile('file')) {
+            $imageName = time().'.'.$request->file->extension();
+
+            $request->file->move(public_path('img'), $imageName);
+
+            $driver->driver_photo = $imageName;
+
+
+
+            }
+
+
+        $user->driver()->save($driver);
+
+        $user->assignRole('driver');
+
+        return redirect()->route('drivers')
                         ->with('success','driver created successfully.');
     }
 
@@ -85,6 +136,7 @@ class DriverController extends Controller
      */
     public function show(Driver $driver)
     {
+
         $user = User::get();
         return view('drivers.show',compact('driver'));
     }

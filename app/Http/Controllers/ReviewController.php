@@ -95,8 +95,8 @@ class ReviewController extends Controller
     public function update(Request $request, Review $review)
     {
         request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
+            'review' => 'required',
+            'review_states' => 'required',
         ]);
 
         $review->update($request->all());

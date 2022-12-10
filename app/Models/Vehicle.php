@@ -9,10 +9,7 @@ class Vehicle extends Model
 {
     use HasFactory;
 
-    public function driver()
-    {
-        return $this->belongsTo(Driver::class);
-    }
+
 
     public function bookings()
     {
@@ -23,4 +20,6 @@ class Vehicle extends Model
     {
         return $this->belongsTo(type::class);
     }
+    protected $guarded = [];
+
 }

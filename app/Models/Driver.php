@@ -9,9 +9,9 @@ class Driver extends Model
 {
     use HasFactory;
 
-    public function vehicle()
+    public function booking()
     {
-        return $this->hasOne(Vehicle::class);
+        return $this->hasOne(Booking::class);
     }
 
     public function user()
@@ -20,4 +20,6 @@ class Driver extends Model
     }
 
     protected $guarded = [];
+
+
 }

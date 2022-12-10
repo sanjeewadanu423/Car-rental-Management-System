@@ -31,11 +31,11 @@
             <th>Photo</th>
             <th width="280px">Action</th>
         </tr>
-	    @foreach ($customers as $index => $customer)
+	    @foreach ($customers as $customer)
 	    <tr>
 	        <td>{{ ++$i }}</td>
-	        <td>{{ $user[$index]->name }}</td>
-            <td>{{ $user[$index]->email }}</td>
+	        <td>{{ $customer->name }}</td>
+            <td>{{ $customer->email }}</td>
             <td>{{ $customer->customer_nic }}</td>
             <td>{{ $customer->customer_phone }}</td>
             <td>{{ $customer->customer_address }}</td>
