@@ -13,6 +13,12 @@
         </div>
     </div>
 
+    @foreach ($vehicles as $vehicle )
+
+    <div class="image">
+        <img class="rounded-circle mt-5" src="{{ asset('img/'.$vehicle->vehicle_photo) }}" width="200px" height="120px" alt="">
+    </div>
+    <div><br></div>
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -95,5 +101,7 @@
                         {{ $vehicle->engine_capacity }}
                     </div>
                 </div>
+    </div>
+    @endforeach
 
 @endsection

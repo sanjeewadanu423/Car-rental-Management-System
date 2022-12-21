@@ -124,7 +124,15 @@
                         <div class="image">
                             <img src="img/gtr.jfif" alt="">
                             <div class="social-icons">
-                                <a  href="{{ route('cars') }}"><i></i></a>
+                                {{-- <a  href="{{ route('cars') }}"><i></i></a> --}}
+                                <a  href="{{ route('cars') }}"
+                                            onclick="event.preventDefault();
+                                                          document.getElementById('cars').submit();"><i></i>&nbsp;</a>
+                                            <form  action="{{ route('cars') }}" method="POST" class="d-none" id="cars">
+
+                                                @csrf
+                                                <input type="hidden" name="cars" value="1">
+                                            </form>
                             </div>
                             <div class="overlay" href=""></div>
                         </div>
@@ -137,9 +145,17 @@
                         <div class="image">
                             <img src="img/gtr.jfif" alt="">
                             <div class="social-icons">
-                                <a href="{{ route('cabs') }}"><i></i></a>
+                                {{-- <a  href="{{ route('cabs') }}"><i></i></a> --}}
+                                <a  href="{{ route('cabs') }}"
+                                            onclick="event.preventDefault();
+                                                          document.getElementById('cabs').submit();"><i></i>&nbsp;</a>
+                                            <form  action="{{ route('cabs') }}" method="POST" class="d-none" id="cabs">
+
+                                                @csrf
+                                                <input type="hidden" name="cabs" value="2">
+                                            </form>
                             </div>
-                            <div class="overlay"></div>
+                            <div class="overlay" href=""></div>
                         </div>
                         <p>SUV & Cabs</p>
                     </div>
@@ -150,7 +166,15 @@
                         <div class="image">
                             <img src="img/gtr.jfif" alt="">
                             <div class="social-icons">
-                                <a href="{{ route('vans') }}"><i></i></a>
+                                {{-- <a href="{{ route('vans') }}"><i></i></a> --}}
+                                <a  href="{{ route('vans') }}"
+                                            onclick="event.preventDefault();
+                                                          document.getElementById('vans').submit();"><i></i>&nbsp;</a>
+                                            <form  action="{{ route('vans') }}" method="POST" class="d-none" id="vans">
+
+                                                @csrf
+                                                <input type="hidden" name="vans" value="3">
+                                            </form>
                             </div>
                             <div class="overlay"></div>
                         </div>
@@ -234,50 +258,32 @@
                 </div>
             </div>
 
+
+
+
             <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-8">
-                    <div class="team-member">
-                        <div class="image">
-                            <img src="img/offer1.jpg" alt="">
-                            <div class="social-icons">
-                                <a href="#"></a>
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
-                        <h5>offer percentage</h5>
-                        <p>Type offer details</p>
-                    </div>
-                </div>
+
+                @foreach ($offers as $off )
+                @if ($off->id != '1')
 
                 <div class="col-lg-4 col-md-8">
                     <div class="team-member">
                         <div class="image">
-                            <img src="img/offer2.jpg" alt="">
-                            <div class="social-icons">
-                                <a href="#"></a>
-                            </div>
+                            <img src="{{ asset('img/'.$off->offer_photo) }}" alt="">
+
                             <div class="overlay"></div>
                         </div>
+                        <h5>{{ $off->title }}</h5>
+                        <h4>Rs. {{  $off->offer_price }}</h4>
+                        <p><b>Coupon No-</b> {{ $off->coupon }}</p><br>
 
-                        <h5>offer percentage</h5>
-                        <p>Type offer details</p>
                     </div>
                 </div>
+                @endif
 
-                <div class="col-lg-4 col-md-8">
-                    <div class="team-member">
-                        <div class="image">
-                            <img src="img/offer3.jfif" alt="">
-                            <div class="social-icons">
-                                <a href="#"></a>
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
+                @endforeach
 
-                        <h5>offer percentage</h5>
-                        <p>Type offer details</p>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>

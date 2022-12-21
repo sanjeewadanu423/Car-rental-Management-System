@@ -8,11 +8,16 @@
     <link rel="icon" type="image/x-icon" href="link.png">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    {{-- <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css' rel='stylesheet'> --}}
+    {{-- <link rel="stylesheet" href="css/bootstrap.min.css"> --}}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {{-- <link rel="stylesheet" href="css/owl.carousel.min.css"> --}}
+    {{-- <link rel="stylesheet" href="css/owl.theme.default.min.css"> --}}
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css">
+    {{-- <link rel="stylesheet" href="css/style.css"> --}}
 
     <title>Rent A Car</title>
 </head>
@@ -44,7 +49,7 @@
         <div class="container">
 
 
-            <a class="navbar-brand" href="#">Rent A Car</a>
+            <a class="navbar-brand" href="{{ route('index') }}">Rent A Car</a>
 
 
 
@@ -222,81 +227,117 @@
 
                                 </div>
                             </div>
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <div class="col-lg-8">
-                            <form class="p-lg-5 col-12 row g-3"  method="POST" action="{{ route('register') }}">
-                                @csrf
+                                <form class="p-lg-5 col-12 row g-3" action="{{ route('regi') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
                                     <div>
-                                        <h3>Please Register</h3>
+                                        <h3>Please Registerr</h3>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <label for="fullname" class="form-label">Full Name</label>
-                                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            name="name" value="{{ old('name') }}" required autocomplete="name"
+                                            autofocus>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                        @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <div class="col-lg-12">
                                         <label for="email" class="form-label">Email Address</label>
-                                        <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="sanjeewadanu423@gmail.com" aria-describedby="emailHelp">
+                                        <input type="email" id="email"
+                                            class="form-control @error('email') is-invalid @enderror" name="email"
+                                            value="{{ old('email') }}" required autocomplete="email"
+                                            placeholder="sanjeewadanu423@gmail.com" aria-describedby="emailHelp">
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                        @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
 
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror"
+                                            name="password" required autocomplete="new-password"
+                                            aria-describedby="emailHelp">
+
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label for="password-confirm" class="form-label">Confirm Password</label>
+                                        <input id="password-confirm" type="password" class="form-control"
+                                            name="password_confirmation" required autocomplete="new-password"
+                                            aria-describedby="emailHelp">
+
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <div class="col-lg-6">
                                         <label for="idNo" class="form-label">Enter ID Number</label>
-                                        <input type="text" class="form-control" placeholder="981351363v" id="idNo"
-                                            aria-describedby="emailHelp">
+                                        <input type="text" class="form-control" name="customer_nic" placeholder="981351363V">
                                     </div>
 
                                     <div class="col-lg-6">
                                         <label for="tpNo" class="form-label">Telephone Number</label>
-                                        <input type="text" class="form-control" placeholder="0775579398" id="tpNo"
-                                            aria-describedby="emailHelp">
+                                        <input type="text" class="form-control" name="customer_phone" placeholder="0755793398">
                                     </div>
 
                                     <div class="col-12">
                                         <label for="address" class="form-label">Enter Address</label>
-                                        <textarea name="address" class="form-control" id="address" rows="4">
+                                        <textarea class="form-control" style="height:100px" name="customer_address" placeholder="Address"></textarea>
 
                                         </textarea>
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" aria-describedby="emailHelp">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                        <label for="tpNo" class="form-label">Job</label>
+                                        <input type="text" class="form-control" name="customer_job" placeholder="Job">
                                     </div>
 
-                                    <div class="col-lg-6">
-                                        <label for="password-confirm" class="form-label">Confirm Password</label>
-                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" aria-describedby="emailHelp">
+                                    <div class="form-group col-lg-12">
+                                        <strong>Customer Photo:</strong>
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                            <input class="form-control" id="myFile" type="file" name="file">
+
                                     </div>
+
+
 
 
                                     <div class="col-6">
-                                        <button type="register" class="btn btn-brand" name="submit">Register</button>
+                                        <button type="submit" class="btn btn-brand"
+                                            name="submit">Register</button>
                                     </div>
+
 
                                 </form>
                             </div>
@@ -317,7 +358,8 @@
                     <div class="container-fluid">
                         <div class="row gy-4">
                             <div class="col-lg-8">
-                                <form class="p-lg-5 col-12 row g-3">
+                                <form class="p-lg-5 col-12 row g-3" method = "post" action = "{{ route('Check') }}">
+                                    @csrf
                                     <div>
                                         <h3>Availability Checking</h3>
                                     </div>
@@ -341,7 +383,7 @@
                                         <div class="col-sm-6">
                                             <div >
                                                 <span class="form-label">Pickup Date</span>
-                                                <input class="form-control" type="date" name="pick-date" required>
+                                                <input class="form-control" type="date" name="booking_date" required>
                                             </div>
                                         </div>
 
@@ -349,7 +391,7 @@
                                         <div class="col-sm-6">
                                             <div>
                                                 <span class="form-label">Return Date</span>
-                                                <input class="form-control" type="date" name="ret-date" required>
+                                                <input class="form-control" type="date" name="return_date" required>
                                             </div>
                                         </div>
 
@@ -363,10 +405,10 @@
                                         <div class="col-sm-4">
                                             <div>
                                                 <span class="form-label">Vehicle Type</span>
-                                                <select class="form-control" name="vehicle-type">
-                                                    <option value="car">Car</option>
-                                                    <option value="suv-cab">SUV & Cabs</option>
-                                                    <option value="van-bus">Van & Bus</option>
+                                                <select class="form-control" name="vehicle_type">
+                                                    <option value="1">Car</option>
+                                                    <option value="2">SUV & Cabs</option>
+                                                    <option value="3">Van & Bus</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -377,7 +419,7 @@
 
 
                                     <div class="col-6">
-                                        <button type="register" class="btn btn-brand">Check availability</button>
+                                        <button type="submit" class="btn btn-brand">Check availability</button>
                                         <h1><br/></h1>
                                     </div>
 
@@ -392,10 +434,15 @@
         </div>
     </div>
 
-    <script src="js/jquery.min.js"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app.js"></script> --}}
+
 
 </body>
 </html>

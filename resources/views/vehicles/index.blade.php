@@ -44,8 +44,11 @@
             <th>Engine Capacity</th>
             <th width="260px">Action</th>
         </tr>
+
 	    @foreach ($vehicles as  $vehicle)
 	    <tr>
+
+            {{-- {{ dd($vehicle) }} --}}
 	        <td>{{ ++$i }}</td>
 	        <td>{{ $vehicle->vehicle_name }}</td>
             <td>{{ $vehicle->vehicle_reg_no }}</td>
@@ -54,12 +57,28 @@
             <td>{{ $vehicle->passengers }}</td>
             <td>{{ $vehicle->luggage }}</td>
             <td>
-                <input data-id="{{$vehicle->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="NotActive" {{ $vehicle->vehicle_states ? 'checked' : '' }}>
+
+                @if($vehicle->vehicle_states == 'yes')
+                <button class="btn btn-success">Yes</button>
+                @else
+                <button class="btn btn-warning">No</button>
+                @endif
+
+                @if($vehicle->vehicle_states == 'no' )
+                        <a href="/statesYes{{ $vehicle->id }}" class="btn btn-outline-success">Yes</a>
+                @else
+                        <a href="/statesNo{{ $vehicle->id }}" class="btn btn-outline-danger">No</a>
+                @endif
+
             </td>
             <td>{{ $vehicle->engine_capacity }}</td>
 	        <td>
+
+
+
+
                 <form action="{{ route('vehicles.destroy',$vehicle->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('vehicles.show',$vehicle->id) }}">Show</a>
+                    <a class="btn btn-info" href="{{ route('vehicle_profile',$vehicle->id) }}">Show</a>
 
                     <a class="btn btn-primary" href="{{ route('vehicles.edit',$vehicle->id) }}">Edit</a>
 

@@ -36,7 +36,7 @@
 	    @foreach ($offers as $offer)
 	    <tr>
 	        <td>{{ ++$i }}</td>
-	        <td>{{ $offer->offer_photo }}</td>
+	        <td><img class="rounded-circle me-2" width="30" height="30" src="{{asset('img/'.$offer->offer_photo)}}"></td>
 	        <td>{{ $offer->title }}</td>
             <td>{{ $offer->offer_descrip }}</td>
             <td>{{ $offer->coupon }}</td>

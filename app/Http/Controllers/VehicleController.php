@@ -73,8 +73,22 @@ class VehicleController extends Controller
 
         $vehicle = new Vehicle;
 
-        $vehicle->vehicle_photo = $request->vehicle_photo;
 
+        $vehicle->vehicle_type_id = $request->vehicle_type_id ;
+        $vehicle->vehicle_name = $request->vehicle_name;
+        $vehicle->vehicle_reg_no = $request->vehicle_reg_no;
+        $vehicle->vehicle_l_h = $request->vehicle_l_h;
+        $vehicle->price_per_date = $request->price_per_date;
+        $vehicle->passengers = $request->passengers;
+        $vehicle->transmission = $request->transmission;
+        $vehicle->luggage = $request->luggage;
+        $vehicle->air_condition = $request->air_condition;
+        $vehicle->fuel = $request->fuel;
+        $vehicle->vehicle_states = $request->vehicle_states;
+        $vehicle->price_for_extra_km = $request->price_for_extra_km;
+        $vehicle->engine_capacity = $request->engine_capacity;
+
+        // dd($vehicle);
         if($request->hasFile('file')) {
             $imageName = time().'.'.$request->file->extension();
 
@@ -84,8 +98,10 @@ class VehicleController extends Controller
 
             }
 
-            Vehicle::create($request->all());
 
+            // Vehicle::create($request->all());
+
+            $vehicle->save();
         return redirect()->route('vehicles')
                         ->with('success','Vehicle created successfully.');
     }
@@ -141,7 +157,7 @@ class VehicleController extends Controller
 
         $vehicle->update($request->all());
 
-        return redirect()->route('vehicles.index')
+        return redirect()->route('vehicles')
                         ->with('success','Vehicle updated successfully');
     }
 
@@ -167,5 +183,44 @@ class VehicleController extends Controller
         $vehicle->save();
 
         return response()->json(['success'=>'Status change successfully.']);
+    }
+
+    public function statusYes($vid)
+    {
+        $vehicle=Vehicle::find($vid);
+        $vehicle->vehicle_states='yes';
+        $vehicle->save();
+        // dd($vehicle);
+
+        return redirect()->back();
+    }
+
+    public function statesNo($vid)
+    {
+        // dd($vid);
+        $vehicle=Vehicle::find($vid);
+        // dd($vehicle);
+        $vehicle->vehicle_states='no';
+        $vehicle->save();
+        // dd($vehicle);
+
+        return redirect()->back();
+    }
+
+    public function vehicleProfile($vehicleid)
+    {
+        // dd($customerid);
+        $vehicles = DB::table('vehicle_types')
+            ->join('vehicles', 'vehicle_types.id', '=', 'vehicles.vehicle_type_id')
+            ->where('vehicles.id', '=' , $vehicleid)
+            ->select('vehicle_types.*', 'vehicles.*')
+            ->get();
+
+// dd($vehicles);
+
+        // $user = User::get();
+
+        // dd($user);
+        return view('vehicles.show',compact('vehicles'));
     }
 }

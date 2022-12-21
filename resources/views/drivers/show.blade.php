@@ -8,13 +8,22 @@
                 <h2> Driver Profile</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('drivers') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('drivers') }}"> Back</a><br>
             </div>
         </div>
     </div>
 
+    {{-- {{ dd($drivers) }} --}}
+@foreach ($drivers as $driver )
 
+<br>
     <div class="row">
+
+        <div class="image">
+            <img class="rounded-circle mt-5" src="{{ asset('img/'.$driver->driver_photo) }}" width="200px" height="120px" alt="">
+        </div>
+        <div><br></div>
+
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Name:</strong>
@@ -66,4 +75,5 @@
                     </div>
                 </div>
     </div>
+    @endforeach
 @endsection

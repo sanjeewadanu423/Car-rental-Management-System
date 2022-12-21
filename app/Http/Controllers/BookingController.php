@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Driver;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
@@ -26,7 +28,6 @@ class BookingController extends Controller
             ->join('customers', 'customers.id', '=', 'bookings.customer_id')
             ->join('offers', 'offers.id', '=', 'bookings.offer_id')
 
-            ->join('reviews', 'reviews.id', '=', 'bookings.review_id')
             ->join('drivers', 'drivers.id', '=', 'bookings.driver_id')
             ->join('users as cu', 'cu.id', '=', 'customers.user_id')
             ->join('users as dr', 'dr.id', '=', 'drivers.user_id')
@@ -38,7 +39,6 @@ class BookingController extends Controller
                 'dr.name as driver_name',
                 'customers.*',
                 'drivers.*',
-                'reviews.*',
                 'offers.*',
                 'vehicles.*',
                 'bookings.*'
@@ -77,14 +77,54 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
+        // dd($request);
 
-        Booking::create($request->all());
+        $user = Auth::user()->id;
 
-        return redirect()->route('bookings.index')
+        // dd($user);
+
+        $customers =DB::table('users')
+            ->join('customers', 'users.id', '=', 'customers.user_id')
+            ->where('users.id', '=' , $user)
+            ->get('customers.id');
+
+         $vprice =DB::table('vehicles')
+            ->where('vehicles.id', '=', $request->vehicle_id )
+            ->get('price_per_date');
+        // dd($vehicle);
+
+        $fdate=$request->booking_date;
+        $tdate=$request->return_date;
+
+        $start = Carbon::parse($fdate);
+        $end =  Carbon::parse($tdate);
+
+        $days = $end->diffInDays($start);
+
+        $price = $days * $vprice[0]->price_per_date;
+// dd($price);
+        $booking = new Booking;
+        $booking->booking_date = $request->booking_date;
+        $booking->return_date = $request->return_date;
+        $booking->vehicle_id = $request->vehicle_id;
+        $booking->price_for_dates = $price;
+        if ($request->driver_id == null){
+            $booking->driver_id = 1;
+        }
+        else{
+            $booking->driver_id = $request->driver_id;
+        }
+
+
+        $booking->customer_id = $customers[0]->id;
+
+
+
+
+
+        $booking->save();
+
+        return redirect()->route('index')
                         ->with('success','Booking created successfully.');
     }
 
@@ -145,4 +185,27 @@ class BookingController extends Controller
         return redirect()->route('bookings.index')
                         ->with('success','Booking deleted successfully');
     }
+
+    public function isReturnYes($bid)
+    {
+        $booking=Booking::find($bid);
+        $booking->is_return='yes';
+        $booking->save();
+        // dd($booking);
+
+        return redirect()->back();
+    }
+
+    public function isReturnNo($bid)
+    {
+        // dd($vid);
+        $booking=Booking::find($bid);
+        // dd($booking);
+        $booking->is_return='no';
+        $booking->save();
+        // dd($booking);
+
+        return redirect()->back();
+    }
+
 }

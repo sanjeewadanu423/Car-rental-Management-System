@@ -134,4 +134,21 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')
                         ->with('success','customer deleted successfully');
     }
+
+    public function showProfile($customerid)
+    {
+        // dd($customerid);
+        $customers = DB::table('users')
+            ->join('customers', 'users.id', '=', 'customers.user_id')
+            ->where('customers.id', '=' , $customerid)
+            ->select('users.*', 'customers.*')
+            ->get();
+
+// dd($customers);
+
+        // $user = User::get();
+
+        // dd($user);
+        return view('customers.show',compact('customers'));
+    }
 }

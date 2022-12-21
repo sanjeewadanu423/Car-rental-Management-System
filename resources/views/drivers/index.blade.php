@@ -28,7 +28,7 @@
             <th>Email</th>
             <th>Address</th>
             <th>Phone</th>
-            <th>Age</th>
+            <th>Status</th>
             <th>NIC</th>
             <th>Photo</th>
             <th>Type</th>
@@ -42,14 +42,26 @@
 	        <td>{{ $driver->email }}</td>
             <td>{{ $driver->driver_address }}</td>
             <td>{{ $driver->driver_phone }}</td>
-            <td>{{ $driver->driver_age }}</td>
+            <td>
+                @if($driver->driver_status == 'yes')
+                <button class="btn btn-success">Yes</button>
+                @else
+                <button class="btn btn-warning">No</button>
+                @endif
+
+                @if($driver->driver_status == 'no' )
+                        <a href="/DriverstatesYes{{ $driver->id }}" class="btn btn-outline-success">Yes</a>
+                @else
+                        <a href="/DriverstatesNo{{ $driver->id }}" class="btn btn-outline-danger">No</a>
+                @endif
+            </td>
             <td>{{ $driver->driber_nic }}</td>
             <td><img class="rounded-circle me-2" width="30" height="30" src="{{asset('img/'.$driver->driver_photo)}}"></td>
             <td>{{ $driver->driver_type }}</td>
             <td>{{ $driver->price_per_date }}</td>
 	        <td>
                 <form action="{{ route('drivers.destroy',$driver->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('drivers.show',$driver->id) }}">Show</a>
+                    <a class="btn btn-info" href="{{ route('driver_profile',$driver->id) }}">Show</a>
                     @can('driver-edit')
                     <a class="btn btn-primary" href="{{ route('drivers.edit',$driver->id) }}">Edit</a>
                     @endcan

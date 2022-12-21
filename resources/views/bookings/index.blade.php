@@ -40,7 +40,19 @@
 	        <td>{{ $booking->return_date }}</td>
             <td>{{ $booking->vehicle_name }}</td>
 	        <td>{{ $booking->customer_name }}</td>
-	        <td>{{ $booking->is_return }}</td>
+	        <td>
+                @if($booking->is_return == 'yes')
+                <button class="btn btn-success">Yes</button>
+                @else
+                <button class="btn btn-warning">No</button>
+                @endif
+
+                @if($booking->is_return == 'no' )
+                        <a href="/bCompleteYes{{ $booking->id }}" class="btn btn-outline-success">Yes</a>
+                @else
+                        <a href="/bCompleteNo{{ $booking->id }}" class="btn btn-outline-danger">No</a>
+                @endif
+            </td>
 	        <td>
                 <form action="{{ route('bookings.destroy',$booking->id) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('bookings.show',$booking->id) }}">Show</a>

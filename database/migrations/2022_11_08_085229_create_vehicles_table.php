@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('vehicle_type_id')->constrained();
             $table->string('vehicle_reg_no');
             $table->string('vehicle_name');
-            $table->enum('vehicle_l_h', ['light'], ['heavy']);
+            $table->enum('vehicle_l_h', ['light' ,'heavy']);
             $table->string('price_per_date');
             $table->string('vehicle_photo');
             $table->integer('passengers');

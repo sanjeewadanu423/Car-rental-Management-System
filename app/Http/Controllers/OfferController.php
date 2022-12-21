@@ -43,10 +43,37 @@ class OfferController extends Controller
             'offer_descrip' => 'required',
             'coupon' => 'required',
             'offer_price' => 'required',
-            'admin_id' => 'required',
+
         ]);
 
-        Offer::create($request->all());
+        $offer = new Offer;
+
+
+        $offer->offer_photo = $request->offer_photo ;
+        $offer->title = $request->title;
+        $offer->offer_descrip = $request->offer_descrip;
+        $offer->coupon = $request->coupon;
+        $offer->offer_price = $request->offer_price;
+
+
+        // dd($offer);
+        if($request->hasFile('file')) {
+            $imageName = time().'.'.$request->file->extension();
+
+            $request->file->move(public_path('img'), $imageName);
+
+            $offer->offer_photo = $imageName;
+
+            }
+
+            // dd($offer);
+
+
+            // Vehicle::create($request->all());
+
+            $offer->save();
+
+        // Offer::create($request->all());
 
         return redirect()->route('offers')
                         ->with('success','offer created successfully.');
@@ -92,7 +119,32 @@ class OfferController extends Controller
 
         ]);
 
-        $offer->update($request->all());
+        // $offer->update($request->all());
+
+        $offer = new Offer;
+
+
+        $offer->offer_photo = $request->offer_photo ;
+        $offer->title = $request->title;
+        $offer->offer_descrip = $request->offer_descrip;
+        $offer->coupon = $request->coupon;
+        $offer->offer_price = $request->offer_price;
+
+
+        // dd($offer);
+        if($request->hasFile('file')) {
+            $imageName = time().'.'.$request->file->extension();
+
+            $request->file->move(public_path('img'), $imageName);
+
+            $offer->Offer_photo = $imageName;
+
+            }
+
+
+            // Vehicle::create($request->all());
+
+            $offer->save();
 
         return redirect()->route('offers')
                         ->with('success','offer updated successfully');

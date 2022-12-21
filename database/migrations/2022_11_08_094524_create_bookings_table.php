@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignId('vehicle_id')->constrained();
             $table->foreignId('customer_id')->constrained();
             $table->foreignId('offer_id')->nullable()->constrained();
-            $table->foreignId('review_id')->nullable()->constrained();
             $table->foreignId('driver_id')->nullable()->constrained();
             $table->enum('is_return', ['yes', 'no']);
             $table->string('price_for_dates');

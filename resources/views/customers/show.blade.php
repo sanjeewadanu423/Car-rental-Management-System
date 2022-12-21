@@ -13,18 +13,26 @@
         </div>
     </div>
 
+@foreach ($customers as $customer )
+
 
     <div class="row">
+
+        <div class="image">
+            <img class="rounded-circle mt-5" src="{{ asset('img/'.$customer->customer_photo) }}" width="200px" height="120px" alt="">
+        </div>
+        <div><br></div>
+
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Name:</strong>
-                {{ $customer->customer_name}}
+                {{ $customer->name}}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Email:</strong>
-                {{ $customer->customer_email }}
+                {{ $customer->email }}
             </div>
         </div>
 
@@ -55,4 +63,5 @@
 
 
     </div>
+    @endforeach
 @endsection

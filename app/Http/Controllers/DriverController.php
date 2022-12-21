@@ -136,8 +136,17 @@ class DriverController extends Controller
      */
     public function show(Driver $driver)
     {
+        // dd($driver);
+        $driver = DB::table('users')
+            ->join('drivers', 'users.id', '=', 'drivers.user_id')
+            ->select('users.*', 'drivers.*', 'drivers.id as driver_id')
+            ->get();
 
-        $user = User::get();
+// dd($drivers);
+
+        // $user = User::get();
+
+        // dd($user);
         return view('drivers.show',compact('driver'));
     }
 
@@ -193,5 +202,44 @@ class DriverController extends Controller
 
         return redirect()->route('drivers')
                         ->with('success','driver deleted successfully');
+    }
+
+    public function statusYes($did)
+    {
+        $driver=Driver::find($did);
+        $driver->driver_status='yes';
+        $driver->save();
+        // dd($driver);
+
+        return redirect()->back();
+    }
+
+    public function statesNo($did)
+    {
+        // dd($vid);
+        $driver=Driver::find($did);
+        // dd($driver);
+        $driver->driver_status='no';
+        $driver->save();
+        // dd($driver);
+
+        return redirect()->back();
+    }
+
+    public function showProfile($driverid)
+    {
+        // dd($driverid);
+        $drivers = DB::table('users')
+            ->join('drivers', 'users.id', '=', 'drivers.user_id')
+            ->where('drivers.id', '=' , $driverid)
+            ->select('users.*', 'drivers.*')
+            ->get();
+
+// dd($drivers);
+
+        // $user = User::get();
+
+        // dd($user);
+        return view('drivers.show',compact('drivers'));
     }
 }

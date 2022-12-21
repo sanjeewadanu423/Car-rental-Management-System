@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('driber_nic');
             $table->string('driver_photo');
             $table->integer('driver_age');
-            $table->enum('driver_type', ['Light', 'heavy']);
+            $table->enum('driver_type', ['light', 'heavy']);
+            $table->enum('driver_status', ['yes', 'no']);
             $table->string('price_per_date');
             $table->timestamps();
             $table->softDeletes();

@@ -43,7 +43,7 @@
             <td>{{ $customer->customer_photo }}</td>
 	        <td>
                 <form action="{{ route('customers.destroy',$customer->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('customers.show',$customer->id) }}">Show</a>
+                    <a class="btn btn-info" href="{{ route('customer_profile',$customer->id) }}">Show</a>
                     @can('customer-edit')
                     <a class="btn btn-primary" href="{{ route('customers.edit',$customer->id) }}">Edit</a>
                     @endcan

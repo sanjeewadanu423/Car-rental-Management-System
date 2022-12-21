@@ -41,7 +41,7 @@
 		    <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
 		            <strong>Driver Address:</strong>
-		            <select class="form-control" name="vehicle_type_id_id">
+		            <select class="form-control" name="vehicle_type_id">
                         @foreach ($types as $value)
 
                         <option value="{{ $value->id }}">{{ $value->vehicle_type_name}}</option>
